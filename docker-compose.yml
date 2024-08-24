@@ -4,10 +4,4 @@ services:
     build: .
     container_name: strompris
     restart: always
-    networks:
-      - host
-
-networks:
-  host:
-    name: host
-    external: true
+    network_mode: host
