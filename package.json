@@ -1,0 +1,14 @@
+{
+  "name": "strompris",
+  "version": "1.0.0",
+  "description": "Henter ned morgendagens strømpriser og dytter dem inn i Home Assistant",
+  "main": "main.js",
+  "scripts": {},
+  "author": "Sindre van der Linden <sindre@linden.no>",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.7.5",
+    "express": "^4.19.2",
+    "moment": "^2.30.1"
+  }
+}
