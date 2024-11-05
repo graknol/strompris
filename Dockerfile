@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM node:slim
 WORKDIR /app
 COPY package.json /app
 RUN npm install
