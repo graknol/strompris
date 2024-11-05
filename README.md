@@ -99,6 +99,6 @@ Now we can add the sensor in Home Assistant:
 binary_sensor:
   - platform: rest
     resource: http://10.0.0.4:3010/now?homeassistant=true&flip=true
-    name: Strompris Today
-    unique_id: strompris_today
+    name: Billig strøm
+    unique_id: strompris_cheap
 ```
