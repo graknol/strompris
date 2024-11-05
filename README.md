@@ -70,4 +70,4 @@ Lastly, if you're like me, you probably only care about the 24-hour numerical ho
 [8, 9, 10, 11, 12, 13, 17, 18]
 ```
 
-With this list, it's so easy to make an automation in Home Assistant (with the use of the REST API sensor) which turns off water boilers at the most expensive hours of the day.
+With this list, it's so easy to make an automation in Home Assistant (with the use of the [RESTful Sensor](https://www.home-assistant.io/integrations/sensor.rest/)) which turns off water boilers at the most expensive hours of the day.
