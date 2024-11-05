@@ -139,7 +139,7 @@ app.get("/today", async (req, res) => {
     }
   }
 
-  res.send(prices ?? []);
+  res.json(prices ?? []);
 });
 
 app.get("/tomorrow", async (req, res) => {
@@ -153,7 +153,7 @@ app.get("/tomorrow", async (req, res) => {
     }
   }
 
-  res.send(prices ?? []);
+  res.json(prices ?? []);
 });
 
 app.get("/now", async (req, res) => {
@@ -174,11 +174,18 @@ app.get("/now", async (req, res) => {
     const isHighCost = currentPrice.isHighCost;
     const flip = req.query.flip == "true";
 
-    res.send(flip ? !isHighCost : isHighCost);
+    const result = flip ? !isHighCost : isHighCost;
+
+    if (req.query.type == "string") {
+      res.json(result ? "true" : "false");
+      return;
+    }
+
+    res.json(result);
     return;
   }
 
-  res.send(currentPrice);
+  res.json(currentPrice);
 });
 
 app.listen(port, () => {

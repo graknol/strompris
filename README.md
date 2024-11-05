@@ -91,6 +91,15 @@ For that case, we can flip it with `flip=true`.
 false
 ```
 
+A last little note, working with `boolean` values in Home Assistant automations are a pain, so to make things more UI friendly, we should convert the values
+to strings:
+
+`/now?homeassistant=true&flip=true&type=string`:
+
+```json
+"false"
+```
+
 Now we can add the sensor in Home Assistant:
 
 ```yaml
@@ -98,7 +107,7 @@ Now we can add the sensor in Home Assistant:
 
 sensor:
   - platform: rest
-    resource: http://10.0.0.4:3010/now?homeassistant=true&flip=true # Of course, you'll need to replace the IP address here with your own
+    resource: http://10.0.0.4:3010/now?homeassistant=true&flip=true&type=string # Of course, you'll need to replace the IP address here with your own
     name: Strompris Today
     unique_id: strompris_today
 ```
