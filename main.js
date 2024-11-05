@@ -129,12 +129,30 @@ async function getPricesTomorrow() {
 }
 
 app.get("/today", async (req, res) => {
-  const prices = await getPricesToday();
+  let prices = await getPricesToday();
+
+  if (req.query.only == "high") {
+    prices = prices.filter((h) => h.isHighCost);
+
+    if (req.query.numerals == "true") {
+      prices = prices.map((h) => h.numeral);
+    }
+  }
+
   res.send(prices ?? []);
 });
 
 app.get("/tomorrow", async (req, res) => {
   const prices = await getPricesTomorrow();
+
+  if (req.query.only == "high") {
+    prices = prices.filter((h) => h.isHighCost);
+
+    if (req.query.numerals == "true") {
+      prices = prices.map((h) => h.numeral);
+    }
+  }
+
   res.send(prices ?? []);
 });
 
