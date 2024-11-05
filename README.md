@@ -72,71 +72,23 @@ Lastly, if you're like me, you probably only care about the 24-hour numerical ho
 
 With this list, it's so easy to make an automation in Home Assistant (with the use of the [RESTful Sensor](https://www.home-assistant.io/integrations/sensor.rest/)) which turns off water boilers at the most expensive hours of the day.
 
-But actually, it turns out the list is not so Home Assistant friendly, you ideally want an object with a single property for each of the 24 hours:
+But actually, it turns out the list is not so Home Assistant friendly, you ideally want a single value for the current time:
 
-`/today?homeassistant=true`:
+`/now?homeassistant=true`:
 
 ```json
-{
-  "hour00": false,
-  "hour01": false,
-  "hour02": false,
-  "hour03": false,
-  "hour04": false,
-  "hour05": false,
-  "hour06": false,
-  "hour07": false,
-  "hour08": true,
-  "hour09": true,
-  "hour10": true,
-  "hour11": true,
-  "hour12": true,
-  "hour13": true,
-  "hour14": false,
-  "hour15": false,
-  "hour16": false,
-  "hour17": true,
-  "hour18": true,
-  "hour19": false,
-  "hour20": false,
-  "hour21": false,
-  "hour22": false,
-  "hour23": false
-}
+// We are currently in a high cost hour
+true
 ```
 
-But now the list is kind of the wrong way around, we want to map the low hours to the ON state of our devices, and the high cost hours to the OFF state.  
-For that case, we can flip them with `flip=true`.
+But now the value is kind of the wrong way around, we want to map the low hours to the ON state of our devices, and the high cost hours to the OFF state.  
+For that case, we can flip it with `flip=true`.
 
-`/today?homeassistant=true&flip=true`:
+`/now?homeassistant=true&flip=true`:
 
 ```json
-{
-  "hour00": true,
-  "hour01": true,
-  "hour02": true,
-  "hour03": true,
-  "hour04": true,
-  "hour05": true,
-  "hour06": true,
-  "hour07": true,
-  "hour08": false,
-  "hour09": false,
-  "hour10": false,
-  "hour11": false,
-  "hour12": false,
-  "hour13": false,
-  "hour14": true,
-  "hour15": true,
-  "hour16": true,
-  "hour17": false,
-  "hour18": false,
-  "hour19": true,
-  "hour20": true,
-  "hour21": true,
-  "hour22": true,
-  "hour23": true
-}
+// Now a high cost hour, basically means TURN OFF water boilers
+false
 ```
 
 Now we can add the sensor in Home Assistant:
@@ -146,7 +98,7 @@ Now we can add the sensor in Home Assistant:
 
 sensor:
   - platform: rest
-    resource: http://10.0.0.4:3010/today?homeassistant=true&flip=true # Of course, you'll need to replace the IP address here with your own
+    resource: http://10.0.0.4:3010/now?homeassistant=true&flip=true # Of course, you'll need to replace the IP address here with your own
     name: Strompris Today
     unique_id: strompris_today
 ```
