@@ -176,8 +176,8 @@ app.get("/now", async (req, res) => {
 
     const result = flip ? !isHighCost : isHighCost;
 
-    if (req.query.type == "string") {
-      res.json(result ? "true" : "false");
+    if (req.query.type == "number") {
+      res.json(result ? 1 : 0);
       return;
     }
 

@@ -92,12 +92,13 @@ false
 ```
 
 A last little note, working with `boolean` values in Home Assistant automations are a pain, so to make things more UI friendly, we should convert the values
-to strings:
+to numbers:
 
-`/now?homeassistant=true&flip=true&type=string`:
+`/now?homeassistant=true&flip=true&type=number`:
 
 ```json
-"false"
+// 0 means false and 1 means true
+0
 ```
 
 Now we can add the sensor in Home Assistant:
@@ -107,7 +108,7 @@ Now we can add the sensor in Home Assistant:
 
 sensor:
   - platform: rest
-    resource: http://10.0.0.4:3010/now?homeassistant=true&flip=true&type=string # Of course, you'll need to replace the IP address here with your own
+    resource: http://10.0.0.4:3010/now?homeassistant=true&flip=true&type=number # Of course, you'll need to replace the IP address here with your own
     name: Strompris Today
     unique_id: strompris_today
 ```
