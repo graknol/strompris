@@ -10,6 +10,13 @@ const moment = require("moment");
 const FULL_NETTLEIE = 0.225;
 const DISCOUNTED_NETTLEIE = 0.145;
 
+// It is advised to keep this at maximum 8, which ensures that the water boiler gets to turn on at least 16 hours per day.
+// This is to prevent the water from being too cold for too long, which would lead to bacteria growing in the tank.
+//
+// Additionally, looking at historical data, the prices typically spike for 3 hours, twice a day, which amounts to 6 hours each day.
+// With this setting set to 8, we ensure that we at least avoid those 6 worst hours, especially when the prices fluctuate a lot during the winter.
+const NUMBER_OF_HIGH_PRICE_HOURS = 8;
+
 const area = "NO5";
 
 const cache = new Map();
@@ -93,8 +100,23 @@ async function getPrices(date) {
 
   hours.sort((a, b) => a.start - b.start);
 
-  cache.set(cacheKey, hours);
-  return hours;
+  // Compute the costs that are classified as HIGH
+  const costs = hours.map((h) => h.cost);
+  costs.sort();
+  costs.reverse();
+  const highCosts = costs.slice(0, NUMBER_OF_HIGH_PRICE_HOURS);
+
+  // Classify each hour
+  const classifiedHours = hours.map((h) => {
+    const isHighCost = highCosts.includes(h.cost);
+    return {
+      ...h,
+      isHighCost: isHighCost,
+    };
+  });
+
+  cache.set(cacheKey, classifiedHours);
+  return classifiedHours;
 }
 
 async function getPricesToday() {
