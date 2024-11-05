@@ -131,6 +131,39 @@ async function getPricesTomorrow() {
 app.get("/today", async (req, res) => {
   let prices = await getPricesToday();
 
+  if (req.query.homeassistant == "true") {
+    const flip = req.query.flip == "true";
+    // Convert the list to an object with 24 properties and their values
+    // true/false depending on whether they are high price hours or not
+    res.send({
+      hour00: flip ? !prices[0].isHighCost : prices[0].isHighCost,
+      hour01: flip ? !prices[1].isHighCost : prices[1].isHighCost,
+      hour02: flip ? !prices[2].isHighCost : prices[2].isHighCost,
+      hour03: flip ? !prices[3].isHighCost : prices[3].isHighCost,
+      hour04: flip ? !prices[4].isHighCost : prices[4].isHighCost,
+      hour05: flip ? !prices[5].isHighCost : prices[5].isHighCost,
+      hour06: flip ? !prices[6].isHighCost : prices[6].isHighCost,
+      hour07: flip ? !prices[7].isHighCost : prices[7].isHighCost,
+      hour08: flip ? !prices[8].isHighCost : prices[8].isHighCost,
+      hour09: flip ? !prices[9].isHighCost : prices[9].isHighCost,
+      hour10: flip ? !prices[10].isHighCost : prices[10].isHighCost,
+      hour11: flip ? !prices[11].isHighCost : prices[11].isHighCost,
+      hour12: flip ? !prices[12].isHighCost : prices[12].isHighCost,
+      hour13: flip ? !prices[13].isHighCost : prices[13].isHighCost,
+      hour14: flip ? !prices[14].isHighCost : prices[14].isHighCost,
+      hour15: flip ? !prices[15].isHighCost : prices[15].isHighCost,
+      hour16: flip ? !prices[16].isHighCost : prices[16].isHighCost,
+      hour17: flip ? !prices[17].isHighCost : prices[17].isHighCost,
+      hour18: flip ? !prices[18].isHighCost : prices[18].isHighCost,
+      hour19: flip ? !prices[19].isHighCost : prices[19].isHighCost,
+      hour20: flip ? !prices[20].isHighCost : prices[20].isHighCost,
+      hour21: flip ? !prices[21].isHighCost : prices[21].isHighCost,
+      hour22: flip ? !prices[22].isHighCost : prices[22].isHighCost,
+      hour23: flip ? !prices[23].isHighCost : prices[23].isHighCost,
+    });
+    return;
+  }
+
   if (req.query.only == "high") {
     prices = prices.filter((h) => h.isHighCost);
 
@@ -144,6 +177,39 @@ app.get("/today", async (req, res) => {
 
 app.get("/tomorrow", async (req, res) => {
   const prices = await getPricesTomorrow();
+
+  if (req.query.homeassistant == "true") {
+    const flip = req.query.flip == "true";
+    // Convert the list to an object with 24 properties and their values
+    // true/false depending on whether they are high price hours or not
+    res.send({
+      hour00: flip ? !prices[0].isHighCost : prices[0].isHighCost,
+      hour01: flip ? !prices[1].isHighCost : prices[1].isHighCost,
+      hour02: flip ? !prices[2].isHighCost : prices[2].isHighCost,
+      hour03: flip ? !prices[3].isHighCost : prices[3].isHighCost,
+      hour04: flip ? !prices[4].isHighCost : prices[4].isHighCost,
+      hour05: flip ? !prices[5].isHighCost : prices[5].isHighCost,
+      hour06: flip ? !prices[6].isHighCost : prices[6].isHighCost,
+      hour07: flip ? !prices[7].isHighCost : prices[7].isHighCost,
+      hour08: flip ? !prices[8].isHighCost : prices[8].isHighCost,
+      hour09: flip ? !prices[9].isHighCost : prices[9].isHighCost,
+      hour10: flip ? !prices[10].isHighCost : prices[10].isHighCost,
+      hour11: flip ? !prices[11].isHighCost : prices[11].isHighCost,
+      hour12: flip ? !prices[12].isHighCost : prices[12].isHighCost,
+      hour13: flip ? !prices[13].isHighCost : prices[13].isHighCost,
+      hour14: flip ? !prices[14].isHighCost : prices[14].isHighCost,
+      hour15: flip ? !prices[15].isHighCost : prices[15].isHighCost,
+      hour16: flip ? !prices[16].isHighCost : prices[16].isHighCost,
+      hour17: flip ? !prices[17].isHighCost : prices[17].isHighCost,
+      hour18: flip ? !prices[18].isHighCost : prices[18].isHighCost,
+      hour19: flip ? !prices[19].isHighCost : prices[19].isHighCost,
+      hour20: flip ? !prices[20].isHighCost : prices[20].isHighCost,
+      hour21: flip ? !prices[21].isHighCost : prices[21].isHighCost,
+      hour22: flip ? !prices[22].isHighCost : prices[22].isHighCost,
+      hour23: flip ? !prices[23].isHighCost : prices[23].isHighCost,
+    });
+    return;
+  }
 
   if (req.query.only == "high") {
     prices = prices.filter((h) => h.isHighCost);
