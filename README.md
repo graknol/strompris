@@ -92,13 +92,12 @@ false
 ```
 
 A last little note, working with `boolean` values in Home Assistant automations are a pain, so to make things more UI friendly, we should convert the values
-to numbers:
+to the strings `on` and `off` to prevent Home Asssistant from parsing them as boolean:
 
-`/now?homeassistant=true&flip=true&type=number`:
+`/now?homeassistant=true&flip=true&type=string`:
 
 ```json
-// 0 means false and 1 means true
-0
+"off"
 ```
 
 Now we can add the sensor in Home Assistant:
