@@ -17,6 +17,9 @@ const DISCOUNTED_NETTLEIE = 0.145;
 // With this setting set to 8, we ensure that we at least avoid those 6 worst hours, especially when the prices fluctuate a lot during the winter.
 const NUMBER_OF_HIGH_PRICE_HOURS = 8;
 
+// The hours of the day that are preferable to have the water turned on if possible.
+const PREFERABLE_HOURS = [5, 6, 7, 17, 18, 19];
+
 const area = "NO5";
 
 const cache = new Map();
@@ -114,6 +117,39 @@ async function getPrices(date) {
       isHighCost: isHighCost,
     };
   });
+
+  // BUG: If the highest prices are 0.45 and 0.37, and more than 8 hours have these prices,
+  // then more than 8 hours (which is our max) will be classified as HIGH, which is severe!
+  // We want the most hot water at the start of the day...
+  let highCostHourCount = 0;
+  classifiedHours.forEach((h) => {
+    if (h.isHighCost) {
+      highCostHourCount++;
+    }
+  });
+
+  // Reduce the amount of high cost hours until we get down to the maximum number of high price hours.
+  //
+  // Let's check the preferable hours first...
+  let i = 0;
+  while (
+    highCostHourCount > NUMBER_OF_HIGH_PRICE_HOURS &&
+    i < PREFERABLE_HOURS.length
+  ) {
+    const j = PREFERABLE_HOURS[i];
+    if (classifiedHours[j].isHighCost) {
+      classifiedHours[j].isHighCost = false;
+      highCostHourCount--;
+    }
+  }
+  // Check every single hour from the start of the day towards the end of the day.
+  i = 0;
+  while (highCostHourCount > NUMBER_OF_HIGH_PRICE_HOURS) {
+    if (classifiedHours[i].isHighCost) {
+      classifiedHours[i].isHighCost = false;
+      highCostHourCount--;
+    }
+  }
 
   cache.set(cacheKey, classifiedHours);
   return classifiedHours;
